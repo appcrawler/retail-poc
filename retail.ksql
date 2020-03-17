@@ -1,0 +1,6 @@
+create stream sales_s(txnid bigint,ts bigint,sku varchar,quantity int, price int) with (kafka_topic = 'sales', value_format = 'JSON', timestamp = 'ts');
+create stream receipts_s(txnid bigint,ts bigint,sku varchar,quantity int) with (kafka_topic = 'receipts', value_format = 'JSON', timestamp = 'ts');
+create stream inventory_s(ts bigint, sku varchar,quantity int, type varchar) with (kafka_topic = 'inventory', value_format = 'JSON', timestamp = 'ts');
+create table soh as select i.sku as sku, sum(quantity) as stock_on_hand from inventory_s i group by i.sku;
+insert into inventory_s select ts, sku, quantity, 'R' as type from receipts_s;
+insert into inventory_s select ts, sku, quantity*-1 as quantity, 'S' as type from sales_s;
