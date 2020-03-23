@@ -1,7 +1,11 @@
 #---------------------------------------------------------------------------------
 # Stop anything currently running on this host and delete for fresh start
 # change PATH to confluent executable below to wherever you have the platform installed
+<<<<<<< HEAD
 export PATH=/opt/confluent-5.4.0/bin:$PATH
+=======
+export PATH=/root/confluent-5.4.0/bin:$PATH
+>>>>>>> fdb2bdaebe3087028956cca16168dcd9747f32d8
 confluent local stop
 rm -rf /tmp/confluent.*
 rm -rf /var/lib/kafka
